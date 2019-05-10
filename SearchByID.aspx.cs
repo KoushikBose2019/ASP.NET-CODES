@@ -4,41 +4,33 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using System.Data;
-using System.Data.SqlClient;
-using System.Configuration;
 
 public partial class SearchByID : System.Web.UI.Page
 {
+    OfficeEntities ob = new OfficeEntities();
     protected void Page_Load(object sender, EventArgs e)
     {
 
     }
     protected void Button1_Click(object sender, EventArgs e)
     {
-        string Empide = Txtide.Text;
-        string Q = "select * from EmployeeDetails where empid='" + Empide + "'";
-        string str = ConfigurationManager.ConnectionStrings["DB"].ConnectionString;
-        SqlConnection con = new SqlConnection(str);
-        if (con.State == ConnectionState.Closed)
+        string Empide = TextBox1.Text;
+        var Q = (from test in ob.EmployeeDetails where test.empid == Empide select test).ToList();
+        if (Q.Count > 0)
         {
-            con.Open();
-        }
-        SqlDataAdapter da = new SqlDataAdapter(Q, con);
-        DataTable dt = new DataTable();
-        da.Fill(dt);
-        if (dt.Rows.Count > 0)
-        {
-            DetailsView1.DataSource = dt;
+            DetailsView1.DataSource = Q;
             DetailsView1.DataBind();
             Label1.Text = string.Empty;
         }
         else
         {
-            Label1.Text = "No Data Found!!";
             DetailsView1.DataSource = null;
             DetailsView1.DataBind();
+            Label1.Text = "No Data Found!!";
         }
-        con.Close();
+    }
+    protected void Button1_Click1(object sender, EventArgs e)
+    {
+
     }
 }

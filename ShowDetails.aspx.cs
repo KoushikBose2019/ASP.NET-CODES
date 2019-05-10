@@ -4,40 +4,14 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using System.Data;
-using System.Data.SqlClient;
-using System.Configuration;
 
 public partial class ShowDetails : System.Web.UI.Page
 {
+    OfficeEntities ob = new OfficeEntities();
     protected void Page_Load(object sender, EventArgs e)
     {
-
-    }
-    protected void Button1_Click(object sender, EventArgs e)
-    {
-        Bind();
- 
-    }
-    private void Bind()
-    {
-        string Query = "select * from EmployeeDetails";
-        string str = ConfigurationManager.ConnectionStrings["DB"].ConnectionString;
-        SqlConnection con = new SqlConnection(str);
-        if (con.State == ConnectionState.Closed)
-        {
-            con.Open();
-        }
-        SqlDataAdapter da = new SqlDataAdapter(Query, con);
-        DataSet ds = new DataSet();
-        da.Fill(ds);
-        GridView1.DataSource = ds;
+        var Q = (from test in ob.EmployeeDetails select new { test.empid,test.Name,test.Addr,test.Phno,test.Sal}).ToList();
+        GridView1.DataSource = Q;
         GridView1.DataBind();
-        con.Close();
-    }
-    protected void GridView1_PageIndexChanging(object sender, GridViewPageEventArgs e)
-    {
-        GridView1.PageIndex = e.NewPageIndex;
-        Bind();
     }
 }

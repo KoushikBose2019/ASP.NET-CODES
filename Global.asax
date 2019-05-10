@@ -1,5 +1,5 @@
 ﻿<%@ Application Language="C#" %>
-<%@ Import Namespace="AdoApplicationTest" %>
+<%@ Import Namespace="LinqTestApplication" %>
 <%@ Import Namespace="System.Web.Optimization" %>
 
 <script runat="server">
