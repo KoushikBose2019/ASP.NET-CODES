@@ -8,7 +8,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Configuration;
 
-public partial class ShowDetails : System.Web.UI.Page
+public partial class UserLogin : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
@@ -16,28 +16,26 @@ public partial class ShowDetails : System.Web.UI.Page
     }
     protected void Button1_Click(object sender, EventArgs e)
     {
-        Bind();
- 
-    }
-    private void Bind()
-    {
-        string Query = "select * from EmployeeDetails";
+        string Mailid = Txtmailid.Text;
+        string Pwd = Txtpwd.Text;
+        string Q = "Select * from UserRegistration where UserMailid='" + Mailid + "' and UserPwd='"+Pwd+"'";
         string str = ConfigurationManager.ConnectionStrings["DB"].ConnectionString;
         SqlConnection con = new SqlConnection(str);
         if (con.State == ConnectionState.Closed)
         {
             con.Open();
         }
-        SqlDataAdapter da = new SqlDataAdapter(Query, con);
-        DataSet ds = new DataSet();
-        da.Fill(ds);
-        GridView1.DataSource = ds;
-        GridView1.DataBind();
-        con.Close();
-    }
-    protected void GridView1_PageIndexChanging(object sender, GridViewPageEventArgs e)
-    {
-        GridView1.PageIndex = e.NewPageIndex;
-        Bind();
+        SqlDataAdapter da = new SqlDataAdapter(Q, con);
+        DataTable dt = new DataTable();
+        da.Fill(dt);
+        if (dt.Rows.Count > 0)
+        {
+            Session["ID"] = Mailid;
+            Response.Redirect("UserProfile.aspx");
+        }
+        else
+        {
+            Label1.Text = "Enter Correct Mailid Or Password!!";
+        }
     }
 }

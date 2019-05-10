@@ -8,7 +8,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Configuration;
 
-public partial class SearchByID : System.Web.UI.Page
+public partial class DynamicSearch : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
@@ -16,8 +16,8 @@ public partial class SearchByID : System.Web.UI.Page
     }
     protected void Button1_Click(object sender, EventArgs e)
     {
-        string Empide = Txtide.Text;
-        string Q = "select * from EmployeeDetails where empid='" + Empide + "'";
+        string Key = TextBox1.Text;
+        string Q = "select * from EmployeeDetails where empid='" + Key + "' or Name like '%" + Key + "%' or Addr='" + Key + "' or Dep='" + Key + "' or cmp='" + Key + "'";
         string str = ConfigurationManager.ConnectionStrings["DB"].ConnectionString;
         SqlConnection con = new SqlConnection(str);
         if (con.State == ConnectionState.Closed)
@@ -29,15 +29,15 @@ public partial class SearchByID : System.Web.UI.Page
         da.Fill(dt);
         if (dt.Rows.Count > 0)
         {
-            DetailsView1.DataSource = dt;
-            DetailsView1.DataBind();
+            GridView1.DataSource = dt;
+            GridView1.DataBind();
             Label1.Text = string.Empty;
         }
         else
         {
             Label1.Text = "No Data Found!!";
-            DetailsView1.DataSource = null;
-            DetailsView1.DataBind();
+            GridView1.DataSource = null;
+            GridView1.DataBind();
         }
         con.Close();
     }

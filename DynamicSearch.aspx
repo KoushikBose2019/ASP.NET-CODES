@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="ShowDetails.aspx.cs" Inherits="ShowDetails" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="DynamicSearch.aspx.cs" Inherits="DynamicSearch" %>
 
 <!DOCTYPE html>
 
@@ -10,12 +10,14 @@
     <form id="form1" runat="server">
     <div>
     <center>
-        <asp:Button ID="Button1" runat="server" Text="Show" Height="32px" OnClick="Button1_Click" Width="178px"></asp:Button>
+        Enter Key: <asp:TextBox ID="TextBox1" runat="server" Height="21px" Width="312px"></asp:TextBox>
+        <asp:Button ID="Button1" runat="server" Height="30px" Text="Search" Width="101px" OnClick="Button1_Click" />
+        <asp:Label ID="Label1" runat="server"></asp:Label>
     </center>
     </div>
         <div>
             <center>
-                <asp:GridView ID="GridView1" runat="server" BackColor="White" BorderColor="#999999" BorderStyle="Solid" BorderWidth="1px" CellPadding="3" ForeColor="Black" GridLines="Vertical" AllowPaging="True" OnPageIndexChanging="GridView1_PageIndexChanging" PageSize="3">
+                <asp:GridView ID="GridView1" runat="server" BackColor="White" BorderColor="#999999" BorderStyle="Solid" BorderWidth="1px" CellPadding="3" Enabled="False" ForeColor="Black" GridLines="Vertical">
                     <AlternatingRowStyle BackColor="#CCCCCC" />
                     <FooterStyle BackColor="#CCCCCC" />
                     <HeaderStyle BackColor="Black" Font-Bold="True" ForeColor="White" />
